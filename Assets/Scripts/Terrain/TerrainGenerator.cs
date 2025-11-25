@@ -2,74 +2,64 @@ using UnityEngine;
 
 // ReSharper disable Unity.PerformanceCriticalCodeInvocation
 // ReSharper disable Unity.PerformanceAnalysis
-[ExecuteInEditMode]
-public class TerrainGenerator : MonoBehaviour {                                 // Create relief on a square area
-    [Header("Chunk Prefab (must have Chunk.cs)")]
-    public GameObject chunkPrefab;
+namespace Terrain {
+    [ExecuteInEditMode]
+    public class TerrainGenerator : BaseTerrainGenerator {                      // Create relief on a square area
+        [Header("Terrain Settings")]
+        public string parentName = "TerrainMap";
+        public int width = 100;
+        public int length = 100;
 
-    [Header("Terrain Settings")]
-    public string parentName = "TerrainMap";
-    public int width = 100;
-    public int length = 100;
-    public int maxHeight = 20;
+        private Transform _terrainParent;
+        private bool _isDirty;
 
-    [Header("Noise Settings")]
-    public float noiseScale = 10f;
-
-    [Header("Chunk Settings")]
-    public int chunkSize = 16;
-
-    private Transform _terrainParent;
-    private bool _isDirty;
-
-    private void Update() {
-        if (_isDirty) {
-            GenerateTerrain();
-            _isDirty = false;
-        }
-    }
-
-    private void OnValidate() => _isDirty = true;
-
-    [ContextMenu("Generate Terrain")]
-    public void GenerateTerrain() {
-        if (!chunkPrefab) {
-            Debug.LogError("Assign a Chunk Prefab with Chunk.cs inside!");
-            return;
+        private void Update() {
+            if (_isDirty) {
+                GenerateTerrain();
+                _isDirty = false;
+            }
         }
 
-        ClearPreviousTerrain();
-        CreateParent();
+        private void OnValidate() => _isDirty = true;
 
-        int chunksX = Mathf.CeilToInt((float)width / chunkSize);
-        int chunksZ = Mathf.CeilToInt((float)length / chunkSize);
+        [ContextMenu("Generate Terrain")]
+        public void GenerateTerrain() {
+            if (!chunkPrefab) {
+                Debug.LogError("Assign a Chunk Prefab with Chunk.cs inside!");
+                return;
+            }
 
-        for (int cx = 0; cx < chunksX; cx++)
-            for (int cz = 0; cz < chunksZ; cz++)
-                GenerateChunk(cx, cz);
-    }
+            ClearPreviousTerrain();
+            CreateParent();
 
-    private void ClearPreviousTerrain() {
-        Transform old = transform.Find(parentName);
-        if (old) DestroyImmediate(old.gameObject);
-    }
+            int chunksX = Mathf.CeilToInt((float)width / chunkSize);
+            int chunksZ = Mathf.CeilToInt((float)length / chunkSize);
 
-    private void CreateParent() {
-        GameObject parent = new GameObject(parentName) {
-            transform = { parent = transform, localPosition = Vector3.zero } };
-        _terrainParent = parent.transform;
-    }
+            for (int cx = 0; cx < chunksX; cx++)
+                for (int cz = 0; cz < chunksZ; cz++) GenerateChunk(cx, cz);
+        }
 
-    private void GenerateChunk(int cx, int cz) {
-        Vector3 chunkPos = new Vector3(cx * chunkSize, 0, cz * chunkSize);      // Global pos of chunk in scene
-        print(chunkPos);    // !!!
+        private void ClearPreviousTerrain() {
+            Transform old = transform.Find(parentName);
+            if (old) DestroyImmediate(old.gameObject);
+        }
 
-        GameObject obj = Instantiate(chunkPrefab, transform.position + chunkPos, Quaternion.identity, _terrainParent);
-        obj.name = $"Chunk_{cx}_{cz}";
+        private void CreateParent() {
+            GameObject parent = new GameObject(parentName) {
+                transform = { parent = transform, localPosition = Vector3.zero } };
+            _terrainParent = parent.transform;
+        }
 
-        Chunk chunk = obj.GetComponent<Chunk>();
-        chunk.chunkSize = chunkSize;
-        chunk.maxHeight = maxHeight;
-        chunk.noiseScale = noiseScale;
+        private void GenerateChunk(int cx, int cz) {
+            Vector3 chunkPos = new Vector3(cx * chunkSize, 0, cz * chunkSize);      // Global pos of chunk in scene
+
+            GameObject obj = Instantiate(chunkPrefab, transform.position + chunkPos, Quaternion.identity, _terrainParent);
+            obj.name = $"Chunk_{cx}_{cz}";
+
+            Chunk chunk = obj.GetComponent<Chunk>();
+            chunk.chunkSize = chunkSize;
+            chunk.maxHeight = maxHeight;
+            chunk.noiseScale = noiseScale;
+        }
     }
 }

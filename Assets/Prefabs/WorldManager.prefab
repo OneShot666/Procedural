@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2317266566508625903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6700281011223080546}
+  - component: {fileID: 7304414365604964521}
+  - component: {fileID: 9157474420323880905}
+  m_Layer: 0
+  m_Name: WorldManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6700281011223080546
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2317266566508625903}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7304414365604964521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2317266566508625903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1fe95cbbffd12842983eedee744f07c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1426946368382738923, guid: 6dabb83ce1ab30e4da848b8a1e1700ca, type: 3}
+  terrain: {fileID: 0}
+  enemyGroups:
+  - prefab: {fileID: 394295268899019615, guid: 35130f272aae1dd45b7d28bfa18119bc, type: 3}
+    count: 50
+    spread: 100
+    corner: 0
+  - prefab: {fileID: 4196307714535530564, guid: ba4797861e1640149aaa61df4a99a507, type: 3}
+    count: 30
+    spread: 200
+    corner: 3
+  - prefab: {fileID: 8178801667375711611, guid: b44fd553a4041f241aaa08478902bfc8, type: 3}
+    count: 1
+    spread: 1
+    corner: 1
+  - prefab: {fileID: 4730084709913019507, guid: c1cff065b7842a7419ac98dd563edce1, type: 3}
+    count: 20
+    spread: 60
+    corner: 2
+  spawnOffsetY: 1
+  inactiveDistance: 300
+--- !u!114 &9157474420323880905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2317266566508625903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 968c5ed12e61b874f8c611a8bc6a7a81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showBoundary: 1
+  boundaryColor: {r: 0, g: 1, b: 1, a: 1}
+  minY: -1000
+  maxY: 10000
+  trackedObjects: []
+  timerCleaning: 120
+  timerDetect: 600

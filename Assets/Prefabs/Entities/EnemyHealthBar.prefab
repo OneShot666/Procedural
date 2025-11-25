@@ -173,7 +173,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6093929952712038065}
   - component: {fileID: 9024748020119858575}
-  - component: {fileID: 938415237792191136}
   - component: {fileID: 6566101915203645214}
   - component: {fileID: 2426517946394355675}
   m_Layer: 5
@@ -221,35 +220,12 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &938415237792191136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7105347332097677346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
 --- !u!114 &6566101915203645214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +252,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7105347332097677346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76594e24cd21b3a448fb63aa644b6e7f, type: 3}
+  m_Script: {fileID: 11500000, guid: c21fab91e09211f47bdf5b41d1e5b712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 7871554820884088922}

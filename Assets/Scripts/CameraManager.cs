@@ -1,7 +1,11 @@
 using UnityEngine;
 
+// . If too far and come back, enemies falls
+// ! Enemies aren't disabled when out of map bounds
+// ! Disable MainCamera and incarnate player to play it
 // ! Add biomes (center based on coords and grow until touch another biome)
-// ! Add spaghetti caves + cheese caves
+// ! Adapt biomes' items to dynamic relief
+// B Add roads, villages & caves
 public class CameraManager : MonoBehaviour {
     [Tooltip("Target to follow (free camera mode if target is null)")]
     [SerializeField] private Transform target;

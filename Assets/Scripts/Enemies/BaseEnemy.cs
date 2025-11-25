@@ -1,8 +1,7 @@
 using UnityEngine;
 
-// L Prioritize target feature seems to work but could be upgraded : finding target seems laggy
 namespace Enemies {
-    /// <summary> Main enemy behaviour : detect and pursue player </summary>
+    /// <summary> Main enemy behavior : detect and pursue player </summary>
     [RequireComponent(typeof(Rigidbody))]
     public class BaseEnemy : MonoBehaviour {
         [Header("Health settings")]
@@ -29,6 +28,21 @@ namespace Enemies {
         [Tooltip("Min distance to stop before reaching player (attack range")]
         [SerializeField] private float stoppingDistance = 1f;
 
+        [Header("Idle wandering settings")]
+        [Tooltip("If wander when player isn't detected")]
+        [SerializeField] private bool enableWandering = true;
+        [SerializeField] private bool stayInSpawnZone;
+        [SerializeField] private float spawnZoneRadius = 8f;
+        [SerializeField] private float wanderMoveTime = 1f;
+        [Tooltip("Pause between moves")]
+        [SerializeField] private float wanderWaitTime = 2.5f;
+
+        [Header("Auto step climbing")]
+        [SerializeField] private float stepHeight = 1f;
+        [SerializeField] private float stepCheckDistance = 0.6f;
+        [Tooltip("Ascension speed")]
+        [SerializeField] private float stepSmooth = 5f;
+
         [Header("UI settings")]
         [SerializeField] private GameObject healthBarPrefab;
 
@@ -41,14 +55,20 @@ namespace Enemies {
         private GameObject _prioritizeTargetInstance;
         private ParticleSystem _particles;
         private HealthBar _healthBar;
+        private Vector3 _spawnPoint;
+        private Vector3 _wanderDirection;
         private bool _isPlayerDetected;
+        private bool _isWandering;
         private float _currentHealth;
+        private float _wanderTimer;
 
         public bool IsPlayerDetected => _isPlayerDetected;
 
         void Start() {
             var playerObj = GameObject.FindGameObjectWithTag("Player");         // Auto-find player
             if (playerObj) _player = playerObj.transform;
+
+            _spawnPoint = transform.position;
 
             FindTargetInstance();                                               // Check if prioritized target is around
 
@@ -73,8 +93,24 @@ namespace Enemies {
             DetectTarget();
 
             if (_currentTarget) MoveTowardsTarget();
+            else IdleWandering();
             
             if (_currentHealth < maxHealth) DisplayHealthBar();
+        }
+
+        private void HandleStepClimb(Vector3 moveDir) {
+            if (moveDir.sqrMagnitude < 0.001f) return;                          // Exit if don't move
+
+            Vector3 originLow = transform.position + Vector3.up * 0.1f;
+            Vector3 originHigh = transform.position + Vector3.up * (stepHeight + 0.2f);
+
+            if (Physics.Raycast(originLow, moveDir, out _, stepCheckDistance)) {    // If wall
+                if (!Physics.Raycast(originHigh, moveDir, stepCheckDistance)) { // If nothing, can climb
+                    Vector3 stepUp = Vector3.up * stepHeight;                   // Slowly climb
+                    _rb.MovePosition(Vector3.Lerp(transform.position, transform.position + stepUp,
+                        Time.fixedDeltaTime * stepSmooth));
+                }
+            }
         }
 
         private void FindTargetInstance() {                                     // Find prioritize target in scene
@@ -137,6 +173,7 @@ namespace Enemies {
             dir.y = 0f;                                                         // Untouched : manage by gravity
             dir.Normalize();
 
+            HandleStepClimb(dir);
             Quaternion targetRot = Quaternion.LookRotation(dir);
             _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRot, Time.fixedDeltaTime * 5f));
 
@@ -178,6 +215,53 @@ namespace Enemies {
             _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);         // Limit health between 0 and max hp
             if (_healthBar) _healthBar.SetHealth(_currentHealth);
             if (_currentHealth <= 0) Die();
+        }
+
+        private void IdleWandering() {
+            if (!enableWandering || _currentTarget != null) {
+                _isWandering = false;
+                return;
+            }
+
+            _wanderTimer -= Time.fixedDeltaTime;
+
+            // Quand timer terminé → choisir une nouvelle action
+            if (_wanderTimer <= 0f) {
+                _isWandering = !_isWandering;
+
+                if (_isWandering) {
+                    // Choisir une direction aléatoire horizontale
+                    Vector2 randomDir = Random.insideUnitCircle.normalized;
+                    _wanderDirection = new Vector3(randomDir.x, 0, randomDir.y);
+
+                    // Si l’ennemi doit rester dans un rayon autour de sa zone de spawn
+                    if (stayInSpawnZone) {
+                        Vector3 futurePos = transform.position + _wanderDirection * (moveSpeed * wanderMoveTime);
+
+                        if (Vector3.Distance(_spawnPoint, futurePos) > spawnZoneRadius) {
+                            // Forcer une direction vers le centre
+                            _wanderDirection = (_spawnPoint - transform.position).normalized;
+                        }
+                    }
+
+                    _wanderTimer = wanderMoveTime;
+                } else {
+                    _wanderTimer = wanderWaitTime;
+                }
+            }
+
+            // Phase d'attente → pas de déplacement
+            if (!_isWandering) return;
+
+            // Déplacement en Idle
+            Vector3 move = _wanderDirection * (moveSpeed * 0.5f * Time.fixedDeltaTime); // Plus lent que la poursuite
+            _rb.MovePosition(transform.position + move);
+
+            // Rotation vers direction
+            if (_wanderDirection != Vector3.zero) {
+                Quaternion rot = Quaternion.LookRotation(_wanderDirection);
+                _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, rot, Time.fixedDeltaTime * 2f));
+            }
         }
 
         private void Die() {                                                    // Disappear after a small time

@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 356db02b9e556cc4f952699d7b030d75, type: 2}
+  - {fileID: 2100000, guid: 86eed18beab0f2749bd0592e4e765e8d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -150,13 +150,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8178801667375711611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b11b7bfede3249b41bc6a27c6d88e068, type: 3}
+  m_Script: {fileID: 11500000, guid: cbdc8fed396ed68409bb4486feb5350f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToSpawn: {fileID: 394295268899019615, guid: 26ae3441349b8de41ac2fb1aa5182649, type: 3}
-  spawnInterval: 4
+  objectToSpawn: {fileID: 394295268899019615, guid: 35130f272aae1dd45b7d28bfa18119bc, type: 3}
+  spawnInterval: 3
   maxEntities: -1
   spawnRadius: 5
-  spawnHeight: 0.5
+  spawnHeight: 0.1
   spawnParent: {fileID: 0}
   showGizmos: 1
