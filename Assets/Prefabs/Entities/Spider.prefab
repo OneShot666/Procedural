@@ -85,6 +85,14 @@ MonoBehaviour:
   detectionHeight: 3
   moveSpeed: 3
   stoppingDistance: 1
+  enableWandering: 1
+  stayInSpawnZone: 0
+  spawnZoneRadius: 8
+  wanderMoveTime: 1
+  wanderWaitTime: 2.5
+  stepHeight: 1
+  stepCheckDistance: 0.6
+  stepSmooth: 5
   healthBarPrefab: {fileID: 7105347332097677346, guid: 9a9f9a2f164395449928f18b5c03c354, type: 3}
   showGizmos: 1
 --- !u!114 &4096759662894414825
@@ -100,7 +108,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSynchronedWalking: 1
-  legs: []
+  legs:
+  - {fileID: 4523038979569298300}
+  - {fileID: 1207221725059029048}
+  - {fileID: 6151286433501338229}
+  - {fileID: 7597906195536521453}
+  - {fileID: 4595446673947755941}
+  - {fileID: 5116252106240054541}
+  - {fileID: 2235372765200142798}
+  - {fileID: 3745563009221910174}
   legAngle: 15
   legCycleDuration: 1.5
 --- !u!1 &403939343424665711

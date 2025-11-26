@@ -1,10 +1,10 @@
 using UnityEngine;
 
-// . If too far and come back, enemies falls
-// ! Enemies aren't disabled when out of map bounds
-// ! Disable MainCamera and incarnate player to play it
-// ! Add biomes (center based on coords and grow until touch another biome)
-// ! Adapt biomes' items to dynamic relief
+// . Set target of ChunkManager as Evets once launch (else terrain isn't generate around player)
+// ! Some enemies (except zombies) seems disabled from the start
+// ! Color of biomes don't apply to ground
+// ! Make enemies spawn via BiomeGenerator
+// ? Merge biomes objects to chunks (optimized)
 // B Add roads, villages & caves
 public class CameraManager : MonoBehaviour {
     [Tooltip("Target to follow (free camera mode if target is null)")]
