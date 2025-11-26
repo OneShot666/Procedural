@@ -5,7 +5,7 @@ public class UIManager : MonoBehaviour {
     public GameObject uiCanvas;
 
     [Header("Settings")]
-    public KeyCode toggleKey = KeyCode.I;
+    public KeyCode toggleKey = KeyCode.E;
     [HideInInspector] public bool manageCursor;                                 // If has control hover mouse
 
     void Start() {

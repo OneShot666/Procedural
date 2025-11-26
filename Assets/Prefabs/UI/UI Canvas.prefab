@@ -1356,7 +1356,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press 'I' to hide UI
+  m_Text: Press 'E' to hide UI
 --- !u!1 &8687871820986106516
 GameObject:
   m_ObjectHideFlags: 0

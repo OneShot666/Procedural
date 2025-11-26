@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6700281011223080546}
   - component: {fileID: 7304414365604964521}
   - component: {fileID: 9157474420323880905}
+  - component: {fileID: 7841235946948166407}
   - component: {fileID: 1223026436245372819}
   m_Layer: 0
   m_Name: WorldManager
@@ -88,6 +89,20 @@ MonoBehaviour:
   trackedObjects: []
   framesBetweenCleaning: 120
   framesBetweenDetect: 600
+--- !u!114 &7841235946948166407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2317266566508625903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c67e3d5bfb3a2ce4798a5d8cce8e3828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  largeObjectsDistance: 200
+  smallObjectsDistance: 50
 --- !u!114 &1223026436245372819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,5 +116,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCanvas: {fileID: 0}
-  toggleKey: 105
+  toggleKey: 101
   manageCursor: 0

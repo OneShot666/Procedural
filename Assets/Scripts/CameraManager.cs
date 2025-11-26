@@ -1,9 +1,11 @@
 using UnityEngine;
 
-// . Check if communication between ChunkManager.cs and EntitySpawnManager work to set Evets as target
-// ! Some enemies (except zombies) seems disabled from the start
-// ! Make enemies spawn via BiomeGenerator
+// ... Most objects seems 1 block to high from ground
 // ? Merge biomes objects to chunks (optimized)
+// . Check if some enemies are disabled from the start
+// ! Make enemies spawn via BiomeGenerator
+// L Add water at a certain level
+// B  Modify CaveGenerator.cs to create X,Y,Z solid under map
 // B Add roads, villages & caves
 public class CameraManager : MonoBehaviour {
     [Tooltip("Target to follow (free camera mode if target is null)")]
@@ -11,7 +13,7 @@ public class CameraManager : MonoBehaviour {
     [Tooltip("Distance from the target")]
     [SerializeField] private float offSet = 50f;
     [Tooltip("Speed of camera movement")]
-    [SerializeField] private float speed = 10f;
+    [SerializeField] private float speed = 50f;
     [Tooltip("Speed of camera rotation")]
     [SerializeField] private float rotation = 100f;
 

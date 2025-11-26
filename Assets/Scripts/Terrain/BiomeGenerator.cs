@@ -32,6 +32,10 @@ namespace Terrain {
         public float minSpacing = 2f;
         public float border;
 
+        [Header("Optimization")]
+        [Tooltip("Layer to assign to spawned objects")]
+        public int objectLayer = 6;                                             // Default layer: 0; Big: 6; Small: 7
+
         private GameObject _containerObject;
         private readonly List<Vector3> _spawnedPositions = new();
         private bool _isDirty;
@@ -151,6 +155,8 @@ namespace Terrain {
             }
 
             GameObject obj = Instantiate(prefab, worldPos, Quaternion.Euler(0, Random.Range(0f, 360f), 0f), typeParent);
+            obj.layer = objectLayer;                                            // Apply layer
+            foreach(Transform child in obj.transform) child.gameObject.layer = objectLayer; // Modify layer of children
             obj.SetActive(true); 
             return true;
         }
