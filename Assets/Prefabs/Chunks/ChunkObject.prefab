@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5700604374658903925}
   - component: {fileID: 6212481220219164256}
   - component: {fileID: 1994657385647622421}
+  - component: {fileID: 8429579747351892991}
   m_Layer: 0
   m_Name: ChunkObject
   m_TagString: Untagged
@@ -65,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ae9aed04ac4df104da6440f18d3bbe57, type: 2}
+  - {fileID: -876546973899608171, guid: 3161aafcaf3b4b14bb4ceafde2070da8, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,3 +103,26 @@ MonoBehaviour:
   chunkSize: 16
   maxHeight: 20
   noiseScale: 10
+  perlinOffset: {x: 0, y: 0}
+--- !u!64 &8429579747351892991
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5266643026293801111}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}

@@ -1,8 +1,7 @@
 using UnityEngine;
 
-// . Set target of ChunkManager as Evets once launch (else terrain isn't generate around player)
+// . Check if communication between ChunkManager.cs and EntitySpawnManager work to set Evets as target
 // ! Some enemies (except zombies) seems disabled from the start
-// ! Color of biomes don't apply to ground
 // ! Make enemies spawn via BiomeGenerator
 // ? Merge biomes objects to chunks (optimized)
 // B Add roads, villages & caves

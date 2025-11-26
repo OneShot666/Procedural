@@ -6,6 +6,7 @@ using UnityEngine;
 // ReSharper disable InconsistentNaming
 // ReSharper disable IteratorNeverReturns
 // ReSharper disable Unity.PerformanceCriticalCodeInvocation
+// [UNUSED IN THE PROJECT YET]
 namespace Terrain {
     [RequireComponent(typeof(MonoBehaviour))]
     public class ChunkManagerLOD : BaseTerrainGenerator {

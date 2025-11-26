@@ -12,6 +12,8 @@ namespace Terrain {
         public int maxHeight = 30;
         [Tooltip("Noise scale of terrain")]
         public float noiseScale = 30f;
+        [Tooltip("Perlin noise offset from default value (position of relief)")]
+        public Vector2 perlinOffset;
         [Tooltip("Real logic size of area generated")]
         public int mapSize = 100;
 

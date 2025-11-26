@@ -4,6 +4,7 @@ using UnityEngine;
 
 // ReSharper disable IteratorNeverReturns
 // ReSharper disable Unity.PerformanceCriticalCodeInvocation
+// [UNUSED IN THE PROJECT YET]
 namespace Terrain {
     public class ChunkManagerAsync : BaseTerrainGenerator {
         [Header("References")]

@@ -37,10 +37,12 @@ namespace Enemies {
             Vector3 spawnPos = new Vector3(0, h + spawnOffsetY, 0);
 
             GameObject p = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
-            p.name = "Evets";
+            p.name = "[Player] Evets";
             _playerInstance = p.transform;
 
             if (p.TryGetComponent<Rigidbody>(out var rb)) rb.linearVelocity = Vector3.zero;
+
+            if (terrain is ChunkManager chunkManager) chunkManager.SetCameraPlayer(_playerInstance);
         }
 
         void SpawnEnemyGroups() {

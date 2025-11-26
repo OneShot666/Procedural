@@ -2,6 +2,7 @@ using UnityEngine;
 
 // ReSharper disable Unity.PerformanceCriticalCodeInvocation
 // ReSharper disable Unity.PerformanceAnalysis
+// [UNUSED IN THE PROJECT YET]
 namespace Terrain {
     [ExecuteInEditMode]
     public class TerrainGenerator : BaseTerrainGenerator {                      // Create relief on a square area

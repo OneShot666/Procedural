@@ -33,9 +33,10 @@ namespace Terrain {
         public float border;
 
         private GameObject _containerObject;
-        private static readonly List<BiomeGenerator> AllBiomes = new();
         private readonly List<Vector3> _spawnedPositions = new();
         private bool _isDirty;
+
+        public static readonly List<BiomeGenerator> AllBiomes = new();
 
         private void OnEnable() {                                               // Save biomes
             if (!AllBiomes.Contains(this)) AllBiomes.Add(this);
