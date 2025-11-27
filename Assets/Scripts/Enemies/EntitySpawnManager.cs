@@ -1,3 +1,4 @@
+using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace Enemies {
         [Header("Player & Terrain")] 
         public GameObject playerPrefab; 
         public BaseTerrainGenerator terrain;
+        public CaveGenerator cave;
 
         [Header("Enemy Data")] 
         public List<EnemyGroup> enemyGroups = new();
@@ -18,8 +20,13 @@ namespace Enemies {
         public float inactiveDistance = 200f;
         public float checkInterval = 0.5f;
 
+        private CameraDistanceCulling _cullingSystem;
         private Transform _playerInstance;                                      // To stock player's reference once spawn
         private readonly List<GameObject> _spawnedEntities = new();
+
+        private void Awake() {
+            _cullingSystem = GetComponent<CameraDistanceCulling>();
+        }
 
         IEnumerator Start() {
             yield return null;                                                  // Wait until terrain is generated
@@ -42,7 +49,16 @@ namespace Enemies {
 
             if (p.TryGetComponent<Rigidbody>(out var rb)) rb.linearVelocity = Vector3.zero;
 
-            if (terrain is ChunkManager chunkManager) chunkManager.SetCameraPlayer(_playerInstance);
+            if (terrain is ChunkManager chunkManager) chunkManager.SetCameraPlayer(_playerInstance);    // Chunk Manager
+
+            Camera cam = p.GetComponentInChildren<Camera>();                    // Camera Culling
+            if (_cullingSystem && cam) _cullingSystem.SetupCamera(cam);
+
+            if (cave) cave.SetTarget(_playerInstance);
+            else {
+                var foundCave = FindAnyObjectByType<CaveGenerator>();
+                if (foundCave) foundCave.SetTarget(_playerInstance);
+            }
         }
 
         void SpawnEnemyGroups() {

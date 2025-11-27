@@ -1,18 +1,23 @@
 using UnityEngine;
 
-// ! Add and use (or found with player) SetCamera()
 public class CameraDistanceCulling : MonoBehaviour {
-    [Header("Distances par Layer")]
+    [Header("Configuration of layers")]
+    public int largeObjectsLayer = 6; 
+    public int smallObjectsLayer = 7;
+
+    [Header("Distances of display")]
     public float largeObjectsDistance = 200f;
     public float smallObjectsDistance = 50f;
 
-    void Start() {
-        Camera cam = GetComponent<Camera>();
-        float[] distances = new float[32];                                      // Unity has 32 layers max
+    /// <summary> Called by EntitySpawnManager once player is created </summary>
+    public void SetupCamera(Camera playerCamera) {
+        if (!playerCamera) return;
 
-        distances[6] = largeObjectsDistance;                                    // Apply distances to layers
-        distances[7] = smallObjectsDistance; 
+        float[] distances = new float[32];                                      // Unity manage 32 layers maximum
 
-        cam.layerCullDistances = distances;                                     // Unity won't display objects above these distances
+        distances[smallObjectsLayer] = smallObjectsDistance;                    // Only change specific layers (0 by default)
+        distances[largeObjectsLayer] = largeObjectsDistance;
+
+        playerCamera.layerCullDistances = distances;                            // Apply distances to camera
     }
 }

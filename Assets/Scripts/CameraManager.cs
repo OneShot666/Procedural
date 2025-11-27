@@ -1,10 +1,9 @@
 using UnityEngine;
 
-// ... Most objects seems 1 block to high from ground
-// ? Merge biomes objects to chunks (optimized)
-// . Check if some enemies are disabled from the start
-// ! Make enemies spawn via BiomeGenerator
-// L Add water at a certain level
+// ? Make enemies spawn via BiomeGenerator
+// L Upgrade noise (? Add one for each biome) + add seed
+// L Add water at a certain level + prevent objects to spawn underwater level
+// L Some enemies are disabled from the start (don't seem to update)
 // B  Modify CaveGenerator.cs to create X,Y,Z solid under map
 // B Add roads, villages & caves
 public class CameraManager : MonoBehaviour {

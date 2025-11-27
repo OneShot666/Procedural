@@ -101,7 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67e3d5bfb3a2ce4798a5d8cce8e3828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  largeObjectsDistance: 200
+  largeObjectsLayer: 6
+  smallObjectsLayer: 7
+  largeObjectsDistance: 150
   smallObjectsDistance: 50
 --- !u!114 &1223026436245372819
 MonoBehaviour:

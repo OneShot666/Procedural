@@ -126,8 +126,8 @@ namespace Terrain {
         private Color GetBiomeColorAt(float x, float z) {
             Color defaultColor = Color.grey;
 
-            if (BiomeGenerator.AllBiomes != null)
-                foreach (var biome in BiomeGenerator.AllBiomes)
+            if (ChunkBiomeGenerator.AllBiomes != null)
+                foreach (var biome in ChunkBiomeGenerator.AllBiomes)
                     if (biome && biome.IsPointInBiome(x, z))
                         return biome.areaColor;
             return defaultColor;

@@ -38,7 +38,14 @@ namespace Terrain {
 
         public override float GetHeight(float x, float z) {
             float noise = Mathf.PerlinNoise((x + perlinOffset.x) / noiseScale, (z + perlinOffset.y) / noiseScale);
-            return noise * maxHeight;
+            int h = Mathf.FloorToInt(noise * maxHeight);
+            return Mathf.Clamp(h, 1, maxHeight);
+        }
+
+        public Transform GetChunkTransform(int x, int z) {
+            Vector2Int coord = WorldToChunkCoord(new Vector3(x, 0, z));
+            if (_chunks.TryGetValue(coord, out GameObject chunkObj)) return chunkObj.transform;
+            return null;
         }
 
         public override bool IsPositionGenerated(float x, float z) {
@@ -104,6 +111,10 @@ namespace Terrain {
             chunk.perlinOffset = perlinOffset;
 
             _chunks.Add(coord, chunkObj);
+
+            if (ChunkBiomeGenerator.AllBiomes != null)
+                foreach (var biome in ChunkBiomeGenerator.AllBiomes)            // Ask biomes if has to place objects in self
+                    if (biome) biome.ProcessChunk(chunk);
         }
     }
 }
