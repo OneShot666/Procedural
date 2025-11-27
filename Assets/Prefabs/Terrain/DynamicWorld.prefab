@@ -48,6 +48,12 @@ MonoBehaviour:
   chunkSize: 16
   maxHeight: 30
   noiseScale: 70
+  perlinOffset: {x: 0, y: 0}
   mapSize: 100
-  target: {fileID: 0}
-  renderDistance: 20
+  useRandomSeed: 1
+  seed: 0
+  octaves: 4
+  persistence: 0.5
+  lacunarity: 2
+  cameraPlayer: {fileID: 0}
+  renderDistance: 8

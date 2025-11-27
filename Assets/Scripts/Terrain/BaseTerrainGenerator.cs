@@ -17,6 +17,16 @@ namespace Terrain {
         [Tooltip("Real logic size of area generated")]
         public int mapSize = 100;
 
+        [Header("Seed & Noise Details")]
+        public bool useRandomSeed = true;
+        public int seed;
+        [Tooltip("Number of detail layers")]
+        [Range(1, 10)] public int octaves = 4;
+        [Tooltip("How much details impact height")]
+        [Range(0, 1)] public float persistence = 0.5f;
+        [Tooltip("How small details are")]
+        public float lacunarity = 2f;
+
         /// <summary> Get height of terrain at point(x,z) </summary>
         public virtual float GetHeight(float x, float z) {
             float nx = x / noiseScale;

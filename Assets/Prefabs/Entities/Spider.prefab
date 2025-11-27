@@ -117,7 +117,7 @@ MonoBehaviour:
   - {fileID: 5116252106240054541}
   - {fileID: 2235372765200142798}
   - {fileID: 3745563009221910174}
-  legAngle: 30
+  legAngle: 20
   legCycleDuration: 1.5
 --- !u!1 &403939343424665711
 GameObject:

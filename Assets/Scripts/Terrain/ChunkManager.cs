@@ -1,3 +1,4 @@
+using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Collections;                                                       // For coroutine
 using UnityEngine;
@@ -15,6 +16,10 @@ namespace Terrain {
         private readonly Dictionary<Vector2Int, GameObject> _chunks = new();
         
         private Coroutine _generationCoroutine;                                 // To stop coroutine if needed
+
+        private void Awake() {
+            if (useRandomSeed) seed = Random.Range(-100_000, 100_000);
+        }
 
         private void Start() {
             mapSize = renderDistance * chunkSize;
@@ -37,8 +42,22 @@ namespace Terrain {
         }
 
         public override float GetHeight(float x, float z) {
-            float noise = Mathf.PerlinNoise((x + perlinOffset.x) / noiseScale, (z + perlinOffset.y) / noiseScale);
-            int h = Mathf.FloorToInt(noise * maxHeight);
+            float amplitude = 1;
+            float frequency = 1;
+            float noiseHeight = 0;
+
+            for (int i = 0; i < octaves; i++) {
+                float sampleX = (x + perlinOffset.x + seed) / noiseScale * frequency;
+                float sampleZ = (z + perlinOffset.y + seed) / noiseScale * frequency;
+                float perlinValue = Mathf.PerlinNoise(sampleX, sampleZ) * 2 - 1;    // Between -1 & 1
+
+                noiseHeight += perlinValue * amplitude;
+                amplitude *= persistence;
+                frequency *= lacunarity;
+            }
+
+            float normalizedHeight = (noiseHeight + 1) / 2f;                    // To normalize between 0 & 1
+            int h = Mathf.FloorToInt(normalizedHeight * maxHeight);
             return Mathf.Clamp(h, 1, maxHeight);
         }
 
@@ -55,7 +74,6 @@ namespace Terrain {
 
         private void UpdateTerrain() {
             if (!chunkPrefab || !cameraPlayer) return;
-
             if (_generationCoroutine != null) StopCoroutine(_generationCoroutine);  // Stop current coroutine
             _generationCoroutine = StartCoroutine(GenerateChunksRoutine());     // Have a progressive generation
         }
@@ -107,7 +125,11 @@ namespace Terrain {
             Chunk chunk = chunkObj.GetComponent<Chunk>();
             chunk.chunkSize = chunkSize;
             chunk.maxHeight = maxHeight;
+            chunk.seed = seed;
+            chunk.octaves = octaves;
             chunk.noiseScale = noiseScale;
+            chunk.persistence = persistence;
+            chunk.lacunarity = lacunarity;
             chunk.perlinOffset = perlinOffset;
 
             _chunks.Add(coord, chunkObj);

@@ -1,10 +1,9 @@
 using UnityEngine;
 
 // ? Make enemies spawn via BiomeGenerator
-// L Upgrade noise (? Add one for each biome) + add seed
+// L Forbid objects to spawn at origin
 // L Add water at a certain level + prevent objects to spawn underwater level
 // L Some enemies are disabled from the start (don't seem to update)
-// B  Modify CaveGenerator.cs to create X,Y,Z solid under map
 // B Add roads, villages & caves
 public class CameraManager : MonoBehaviour {
     [Tooltip("Target to follow (free camera mode if target is null)")]

@@ -4,6 +4,7 @@ using UnityEngine;
 
 // ReSharper disable Unity.PerformanceCriticalCodeInvocation
 // ReSharper disable InconsistentNaming
+// [UNUSED YET: Replaced by ChunkBiomeGenerator for performance purposes]
 namespace Terrain {
     [ExecuteAlways]
     public class BiomeGenerator : MonoBehaviour {
