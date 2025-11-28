@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1473223773442568786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7335560774113114227}
+  - component: {fileID: 157232519832493777}
+  - component: {fileID: 5164998085500462146}
+  m_Layer: 0
+  m_Name: ForestGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &7335560774113114227
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473223773442568786}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &157232519832493777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473223773442568786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 789e26ebd77cd0444bd078508c26a071, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrain: {fileID: 0}
+  isGlobalBiome: 1
+  biomeSize: 500
+  useSquareShape: 1
+  areaColor: {r: 0.4, g: 0.7, b: 0.2, a: 1}
+  borderNoiseScale: 20
+  borderNoiseStrength: 10
+  objectsPrefabs:
+  - {fileID: 919132149155446097, guid: da3bddbfd2c9a304ea8e48989aa0d340, type: 3}
+  - {fileID: 919132149155446097, guid: b0671ce535ec2d74f8113e5b682e96e8, type: 3}
+  - {fileID: 919132149155446097, guid: e5ca7b90243e4c449b8b46532f6a13ba, type: 3}
+  - {fileID: 919132149155446097, guid: bf528d5706848834fbba082ba758dbe3, type: 3}
+  - {fileID: 919132149155446097, guid: eb094d1cae7836344ada3f0b0739bc0f, type: 3}
+  objectsDensityPercent: 15
+  yOffset: 0
+  objectLayer: 6
+  spawnSafeRadius: 5
+--- !u!114 &5164998085500462146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473223773442568786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 789e26ebd77cd0444bd078508c26a071, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrain: {fileID: 0}
+  isGlobalBiome: 0
+  biomeSize: 500
+  useSquareShape: 1
+  areaColor: {r: 0.4, g: 0.7, b: 0.2, a: 1}
+  borderNoiseScale: 20
+  borderNoiseStrength: 10
+  objectsPrefabs:
+  - {fileID: 919132149155446097, guid: 57de2a595fe18cf49b7e38dae58851e3, type: 3}
+  - {fileID: 919132149155446097, guid: b6ce2e5b295e90c4dbb849d60b22c41c, type: 3}
+  - {fileID: 919132149155446097, guid: 5ccbb80fccbbef44ba3bfe03e7df3c52, type: 3}
+  - {fileID: 919132149155446097, guid: de209842c5136d041842489a189c9eb6, type: 3}
+  - {fileID: 919132149155446097, guid: 411af27e158519b41948a5e284dc938d, type: 3}
+  - {fileID: 919132149155446097, guid: 501dc5288e56fe9448d5f4d4025cee04, type: 3}
+  - {fileID: 919132149155446097, guid: 182e8154a73c6a64ca68ffe1177ddfc9, type: 3}
+  - {fileID: 919132149155446097, guid: 14301a68a5a436641bf2fc1b7681dfa9, type: 3}
+  - {fileID: 919132149155446097, guid: d85ef61dc65edb0459f322feee831e3e, type: 3}
+  - {fileID: 919132149155446097, guid: 27f3bdbe614bdc240a2bf1750c7fc3a5, type: 3}
+  - {fileID: 919132149155446097, guid: fe93ec879795d7b4dad80da1b5baec69, type: 3}
+  objectsDensityPercent: 5
+  yOffset: 0
+  objectLayer: 7
+  spawnSafeRadius: 5

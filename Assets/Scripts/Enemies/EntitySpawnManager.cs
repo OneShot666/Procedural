@@ -1,8 +1,10 @@
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Collections;
+using Caves;
+using Gameplay;
 using UnityEngine;
-using Terrain;
+using Terrains;
 
 // ReSharper disable IteratorNeverReturns
 namespace Enemies {
