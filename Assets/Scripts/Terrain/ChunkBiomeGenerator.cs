@@ -12,7 +12,7 @@ namespace Terrain {
 
         [Header("Biome Settings")]
         [Tooltip("Radius or Half-Size of the area.")]
-        public float biomeSize = 50f;
+        public float biomeSize = 500f;
         [Tooltip("Check this to use a Square shape instead of Circle")]
         public bool useSquareShape = true;
         [Tooltip("Color of the ground in this biome")]
@@ -26,6 +26,10 @@ namespace Terrain {
         public float yOffset;
         [Tooltip("Layer to assign to spawned objects")]
         public int objectLayer = 6;                                             // Default layer: 0; Big: 6; Small: 7
+
+        [Header("Safety Settings")]
+        [Tooltip("Prevent biome to spawn object in a radius around origin")]
+        public float spawnSafeRadius = 5f; 
 
         private static readonly List<ChunkBiomeGenerator> _allBiomes = new();
 
@@ -56,11 +60,15 @@ namespace Terrain {
 
             int chunkSize = chunk.chunkSize;
             Vector3 chunkPos = chunk.transform.position;
+            float safeRadiusSqr = spawnSafeRadius * spawnSafeRadius;            // Calculate radius square
 
             for (int x = 0; x < chunkSize; x++) {                               // Among all chunks
                 for (int z = 0; z < chunkSize; z++) {
                     int worldX = (int)chunkPos.x + x;
                     int worldZ = (int)chunkPos.z + z;
+
+                    float distFromOriginSqr = worldX * worldX + worldZ * worldZ;    // Get distance from origin
+                    if (distFromOriginSqr < safeRadiusSqr) continue;            // Ignore if inside spawn zone
 
                     if (IsPointInBiome(worldX, worldZ)) {
                         float randomVal = RandomHash(worldX, worldZ);
@@ -95,12 +103,13 @@ namespace Terrain {
             Vector3 center = transform.position;
             
             if (useSquareShape) {                                               // Draw square
-                Vector3 size = new Vector3(biomeSize * 2, 10f, biomeSize * 2);  // Height
+                Vector3 size = new Vector3(biomeSize * 2, 10f, biomeSize * 2);
                 Gizmos.DrawCube(center, new Vector3(size.x, 0.1f, size.z)); // Ground
                 Gizmos.DrawWireCube(center, size);                              // Limits
-            } else {                                                            // Draw circle
-                Gizmos.DrawWireSphere(center, biomeSize);
-            }
+            } else Gizmos.DrawWireSphere(center, biomeSize);                    // Draw circle
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(Vector3.zero, spawnSafeRadius);               // Draw spawn zone
         }
     }
 }

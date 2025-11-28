@@ -56,4 +56,6 @@ MonoBehaviour:
   persistence: 0.5
   lacunarity: 2
   cameraPlayer: {fileID: 0}
-  renderDistance: 8
+  renderDistance: 10
+  waterPrefab: {fileID: 5130142942796860059, guid: 4c6368c7758177544b3c30ac8c64916d, type: 3}
+  waterLevel: 3.5

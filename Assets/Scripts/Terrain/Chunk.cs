@@ -15,6 +15,10 @@ namespace Terrain {
         public float persistence;
         public float lacunarity;
 
+        [Header("Water settings")]
+        public GameObject waterPrefab;
+        public float waterLevel;
+
         [HideInInspector] public Vector2 perlinOffset;
 
         private MeshCollider _meshCollider;
@@ -42,6 +46,16 @@ namespace Terrain {
 
         void Start() {
             if (_blocks == null) GenerateBlockData();
+            CreateWater();
+        }
+
+        private Color GetBiomeColorAt(float x, float z) {
+            Color defaultColor = Color.lawnGreen; 
+            if (ChunkBiomeGenerator.AllBiomes != null)
+                foreach (var biome in ChunkBiomeGenerator.AllBiomes)
+                    if (biome && biome.IsPointInBiome(x, z))
+                        return biome.areaColor;
+            return defaultColor;
         }
 
         [ContextMenu("Generate Mesh")]
@@ -143,13 +157,15 @@ namespace Terrain {
              if (_meshCollider) _meshCollider.sharedMesh = mesh;
         }
 
-        private Color GetBiomeColorAt(float x, float z) {
-            Color defaultColor = Color.grey; 
-            if (ChunkBiomeGenerator.AllBiomes != null)
-                foreach (var biome in ChunkBiomeGenerator.AllBiomes)
-                    if (biome && biome.IsPointInBiome(x, z))
-                        return biome.areaColor;
-            return defaultColor;
+        private void CreateWater() {
+            if (!waterPrefab) return;
+
+            GameObject water = Instantiate(waterPrefab, transform);             // Set water as chunk children
+            
+            float scale = chunkSize / 10f;                                      // Set scale of plane to 1 (10 by default)
+            water.transform.localScale = new Vector3(scale, 1, scale);          // Center to chunk
+            water.transform.localPosition = new Vector3(chunkSize / 2f, waterLevel, chunkSize / 2f);    // Position water
+            water.name = "WaterLayer";                                          // Add proper name
         }
     }
 }

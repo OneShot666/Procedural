@@ -10,7 +10,11 @@ namespace Terrain {
         public Transform cameraPlayer;
 
         [Header("Chunk Settings")]
-        [Range(1, 50)] public int renderDistance = 8; 
+        [Range(1, 50)] public int renderDistance = 8;
+
+        [Header("Water settings")]
+        public GameObject waterPrefab;
+        public float waterLevel = 4.5f;
 
         private Vector2Int _currentChunkCoord = new(int.MinValue, int.MinValue);
         private readonly Dictionary<Vector2Int, GameObject> _chunks = new();
@@ -131,6 +135,8 @@ namespace Terrain {
             chunk.persistence = persistence;
             chunk.lacunarity = lacunarity;
             chunk.perlinOffset = perlinOffset;
+            chunk.waterPrefab = waterPrefab;
+            chunk.waterLevel = waterLevel;
 
             _chunks.Add(coord, chunkObj);
 

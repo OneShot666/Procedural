@@ -38,6 +38,7 @@ namespace Enemies {
         [SerializeField] private float wanderWaitTime = 2.5f;
 
         [Header("Auto step climbing")]
+        [SerializeField] private bool autoClimb = true;
         [SerializeField] private float stepHeight = 1f;
         [SerializeField] private float stepCheckDistance = 0.6f;
         [Tooltip("Ascension speed")]
@@ -61,24 +62,25 @@ namespace Enemies {
         private bool _isWandering;
         private float _currentHealth;
         private float _wanderTimer;
+        private float _climbTimer; 
 
         public bool IsPlayerDetected => _isPlayerDetected;
 
         void Start() {
-            var playerObj = GameObject.FindGameObjectWithTag("Player");         // Auto-find player
+            var playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj) _player = playerObj.transform;
 
             _spawnPoint = transform.position;
 
-            FindTargetInstance();                                               // Check if prioritized target is around
+            FindTargetInstance();
 
             _rb = GetComponent<Rigidbody>();
             _rb.useGravity = true;
             _rb.isKinematic = false;
             
-            _currentHealth = maxHealth;                                         // Start full life
+            _currentHealth = maxHealth;
 
-            if (healthBarPrefab) {                                              // Create health bar but hide it
+            if (healthBarPrefab) {
                 GameObject healthBarObj = Instantiate(healthBarPrefab, transform);
                 _healthBar = healthBarObj.GetComponent<HealthBar>();
                 _healthBar.Initialize(transform, maxHealth);
@@ -88,7 +90,9 @@ namespace Enemies {
         }
 
         void FixedUpdate() {
-            if (!_player) return;                                               // Player not found (shouldn't happen)
+            if (_climbTimer > 0) _climbTimer -= Time.fixedDeltaTime;            // Add time to climb timer
+
+            if (!_player) return;
 
             DetectTarget();
 
@@ -99,43 +103,47 @@ namespace Enemies {
         }
 
         private void HandleStepClimb(Vector3 moveDir) {
-            if (moveDir.sqrMagnitude < 0.001f) return;                          // Exit if don't move
+            if (moveDir.sqrMagnitude < 0.001f) return;                          // Don't climb if not moving
+            
+            if (_climbTimer > 0) return;                                        // If last climb was too close in time
+            // Check not too far from the ground
+            if (!Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, 0.2f)) return;
 
-            Vector3 originLow = transform.position + Vector3.up * 0.1f;
-            Vector3 originHigh = transform.position + Vector3.up * (stepHeight + 0.2f);
+            Vector3 originLow = transform.position + Vector3.up * 0.1f + moveDir * 0.2f;
+            Vector3 originHigh = transform.position + Vector3.up * stepHeight + moveDir * 0.2f;
 
-            if (Physics.Raycast(originLow, moveDir, out _, stepCheckDistance)) {    // If wall
-                if (!Physics.Raycast(originHigh, moveDir, stepCheckDistance)) { // If nothing, can climb
-                    Vector3 stepUp = Vector3.up * stepHeight;                   // Slowly climb
-                    _rb.MovePosition(Vector3.Lerp(transform.position, transform.position + stepUp,
-                        Time.fixedDeltaTime * stepSmooth));
+            if (Physics.Raycast(originLow, moveDir, out _, stepCheckDistance)) {
+                if (!Physics.Raycast(originHigh, moveDir, stepCheckDistance + 0.1f)) {
+                    Vector3 velocity = _rb.linearVelocity;
+                    
+                    if (velocity.y < stepSmooth) {                              // If vertical speed isn't too high
+                        velocity.y = stepSmooth; 
+                        _rb.linearVelocity = velocity;
+                        _climbTimer = 0.5f; // Pause between climbs
+                    }
                 }
             }
         }
 
-        private void FindTargetInstance() {                                     // Find prioritize target in scene
+        private void FindTargetInstance() {
             if (prioritizeTargetPrefab) {
                 string prefabName = prioritizeTargetPrefab.name;
 
-                GameObject foundInstance = GameObject.Find(prefabName);         // Try to find by name
-                if (!foundInstance) {                                           // Try to find by type
+                GameObject foundInstance = GameObject.Find(prefabName);
+                if (!foundInstance) {
                     GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
                     foreach (var obj in allObjects)
                         if (obj.name.Contains(prefabName)) { foundInstance = obj; break; }
                 }
-                
-                // if (GetComponent<SpiderAnimation>())                            // !!!
-                //     print($"Found {foundInstance.name} {foundInstance.transform.position}!");
 
                 if (foundInstance) {
                     _prioritizeTargetInstance = foundInstance;
                     _particles = foundInstance.GetComponentInChildren<ParticleSystem>();
                 }
-                // else Debug.LogWarning($"[BaseEnemy] No target '{prefabName}' found !");   // !!!
             }
         }
 
-        private void DetectTarget() {                                           // Check if target/player is around
+        private void DetectTarget() {
             _isPlayerDetected = false;
             _currentTarget = null;
 
@@ -144,10 +152,10 @@ namespace Enemies {
             Vector3 directionToPlayer = _player.position - transform.position;
             float distance = directionToPlayer.magnitude;
 
-            if (distance > detectionRange) return;                              // Check distance
-            if (Mathf.Abs(directionToPlayer.y) > detectionHeight) return;       // Check height
+            if (distance > detectionRange) return;
+            if (Mathf.Abs(directionToPlayer.y) > detectionHeight) return;
 
-            float angle = Vector3.Angle(transform.forward, directionToPlayer);  // Check field of vision angle
+            float angle = Vector3.Angle(transform.forward, directionToPlayer);
             if (angle > fieldOfView / 2f) return;
 
             _isPlayerDetected = true;
@@ -168,104 +176,89 @@ namespace Enemies {
             Vector3 dir = _currentTarget.position - transform.position;
             float distance = dir.magnitude;
 
-            if (distance <= stoppingDistance) { AttackPlayer(); return; }       // If close enough from player, attack it
+            if (distance <= stoppingDistance) { AttackPlayer(); return; }
 
-            dir.y = 0f;                                                         // Untouched : manage by gravity
+            dir.y = 0f;
             dir.Normalize();
 
-            HandleStepClimb(dir);
+            if (autoClimb) HandleStepClimb(dir);
             Quaternion targetRot = Quaternion.LookRotation(dir);
             _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRot, Time.fixedDeltaTime * 5f));
 
             float speed = prioritizeTargetPrefab && _currentTarget == prioritizeTargetPrefab.transform ?
-                moveSpeed * 1.5f : moveSpeed;                                   // Move faster if prioritize target is detected
+                moveSpeed * 1.5f : moveSpeed;
             Vector3 move = dir * (speed * Time.fixedDeltaTime);
             _rb.MovePosition(transform.position + move);
         }
 
-        private void AttackPlayer() {
-            // ReSharper disable once RedundantJumpStatement
-            if (_currentTarget != _player) return;
-
-            // PlayerStat script = _player.GetComponent<PlayerStat>();          // M Inflict damage to player
-            // script.TakeDamage(damage);
-            // L Add timer between each attack
-        }
-
-        private void DisplayHealthBar() {                                       // Show health bar above enemy
+        private void DisplayHealthBar() {
             if (_healthBar && !_healthBar.gameObject.activeSelf) _healthBar.gameObject.SetActive(true);
         }
 
-        void OnDrawGizmosSelected() {
-            if (!showGizmos) return;
-
-            Gizmos.color = _isPlayerDetected ? Color.red : Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, detectionRange);          // Detection range of enemy
-
-            Vector3 leftBoundary = Quaternion.Euler(0, -fieldOfView / 2, 0) * transform.forward; // Field of vision
-            Vector3 rightBoundary = Quaternion.Euler(0, fieldOfView / 2, 0) * transform.forward;
-
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawRay(transform.position, leftBoundary * detectionRange);
-            Gizmos.DrawRay(transform.position, rightBoundary * detectionRange);
-        }
-
-        public void TakeDamage(float receiveDamage) {
-            _currentHealth -= receiveDamage;
-            _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);         // Limit health between 0 and max hp
-            if (_healthBar) _healthBar.SetHealth(_currentHealth);
-            if (_currentHealth <= 0) Die();
-        }
-
         private void IdleWandering() {
-            if (!enableWandering || _currentTarget != null) {
-                _isWandering = false;
-                return;
-            }
+            if (!enableWandering || _currentTarget) { _isWandering = false; return; }
 
             _wanderTimer -= Time.fixedDeltaTime;
 
-            // Quand timer terminé → choisir une nouvelle action
             if (_wanderTimer <= 0f) {
                 _isWandering = !_isWandering;
 
                 if (_isWandering) {
-                    // Choisir une direction aléatoire horizontale
                     Vector2 randomDir = Random.insideUnitCircle.normalized;
                     _wanderDirection = new Vector3(randomDir.x, 0, randomDir.y);
 
-                    // Si l’ennemi doit rester dans un rayon autour de sa zone de spawn
                     if (stayInSpawnZone) {
                         Vector3 futurePos = transform.position + _wanderDirection * (moveSpeed * wanderMoveTime);
 
                         if (Vector3.Distance(_spawnPoint, futurePos) > spawnZoneRadius) {
-                            // Forcer une direction vers le centre
                             _wanderDirection = (_spawnPoint - transform.position).normalized;
                         }
                     }
 
                     _wanderTimer = wanderMoveTime;
-                } else {
-                    _wanderTimer = wanderWaitTime;
-                }
+                } else _wanderTimer = wanderWaitTime;
             }
 
-            // Phase d'attente → pas de déplacement
             if (!_isWandering) return;
 
-            // Déplacement en Idle
-            Vector3 move = _wanderDirection * (moveSpeed * 0.5f * Time.fixedDeltaTime); // Plus lent que la poursuite
+            Vector3 move = _wanderDirection * (moveSpeed * 0.5f * Time.fixedDeltaTime);
             _rb.MovePosition(transform.position + move);
 
-            // Rotation vers direction
             if (_wanderDirection != Vector3.zero) {
                 Quaternion rot = Quaternion.LookRotation(_wanderDirection);
                 _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, rot, Time.fixedDeltaTime * 2f));
             }
         }
 
-        private void Die() {                                                    // Disappear after a small time
+        private void AttackPlayer() {
+            // ReSharper disable once RedundantJumpStatement
+            if (_currentTarget != _player) return;
+            // L Add weapons and all health/damage system
+        }
+
+        public void TakeDamage(float receiveDamage) {
+            _currentHealth -= receiveDamage;
+            _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
+            if (_healthBar) _healthBar.SetHealth(_currentHealth);
+            if (_currentHealth <= 0) Die();
+        }
+
+        private void Die() {
             Destroy(gameObject, 0.5f);
+        }
+
+        void OnDrawGizmosSelected() {
+            if (!showGizmos) return;
+
+            Gizmos.color = _isPlayerDetected ? Color.red : Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, detectionRange);
+
+            Vector3 leftBoundary = Quaternion.Euler(0, -fieldOfView / 2, 0) * transform.forward;
+            Vector3 rightBoundary = Quaternion.Euler(0, fieldOfView / 2, 0) * transform.forward;
+
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawRay(transform.position, leftBoundary * detectionRange);
+            Gizmos.DrawRay(transform.position, rightBoundary * detectionRange);
         }
     }
 }

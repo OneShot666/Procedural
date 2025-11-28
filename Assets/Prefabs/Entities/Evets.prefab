@@ -1908,14 +1908,15 @@ MonoBehaviour:
   playerCamera: {fileID: 6454593846454945582}
   mouseSensitivity: 500
   maxLookAngle: 90
-  gravity: -9.81
+  gravity: -20
   jumpHeight: 2
   walkSpeed: 5
   sprintSpeed: 10
   airControlMultiplier: 0.5
-  stepHeight: 1
-  stepCheckDistance: 0.6
-  stepSmooth: 4
+  coyoteTime: 0.2
+  stepHeight: 1.2
+  stepCheckDistance: 0.5
+  stepSmooth: 0.1
 --- !u!1 &4680718006927692202
 GameObject:
   m_ObjectHideFlags: 0

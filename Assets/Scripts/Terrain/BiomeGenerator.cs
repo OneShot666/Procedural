@@ -2,9 +2,9 @@ using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using UnityEngine;
 
+// [UNUSED YET: Replaced by ChunkBiomeGenerator for performance purposes !]
 // ReSharper disable Unity.PerformanceCriticalCodeInvocation
 // ReSharper disable InconsistentNaming
-// [UNUSED YET: Replaced by ChunkBiomeGenerator for performance purposes]
 namespace Terrain {
     [ExecuteAlways]
     public class BiomeGenerator : MonoBehaviour {
@@ -12,8 +12,6 @@ namespace Terrain {
         public BaseTerrainGenerator terrain;
 
         [Header("Biome Settings")]
-        [Tooltip("If checked, objects will be placed inside their chunk as children.")]
-        public bool parentedToChunk;
         [Tooltip("The name of the biome to generate")]
         public string parentName = "BiomeObjects";
         [Tooltip("Radius or Half-Size of the area.")]
@@ -80,7 +78,7 @@ namespace Terrain {
         }
 
         /// <summary> Check if position(x, z) inside biome </summary>
-        public bool IsPointInBiome(float x, float z) {
+        private bool IsPointInBiome(float x, float z) {
             float dx = Mathf.Abs(x - transform.position.x);
             float dz = Mathf.Abs(z - transform.position.z);
 
@@ -172,28 +170,17 @@ namespace Terrain {
 
             GameObject obj = Instantiate(prefab, worldPos, Quaternion.Euler(0, Random.Range(0f, 360f), 0f));
 
-            bool tryToParented = false;
-            if (parentedToChunk && terrain is ChunkManager chunkManager) {
-                Transform chunkTransform = chunkManager.GetChunkTransform((int) worldPos.x, (int) worldPos.z);
-                if (chunkTransform) {
-                    obj.transform.SetParent(chunkTransform);
-                    tryToParented = true;
-                }
+            Transform typeParent = _containerObject.transform.Find(prefab.name);
+            if (!typeParent) {
+                GameObject newParent = new GameObject(prefab.name) { transform = {
+                    parent = _containerObject.transform, localPosition = Vector3.zero } };
+                typeParent = newParent.transform;
             }
 
-            if (!tryToParented) {                                               // If no chunk found
-                Transform typeParent = _containerObject.transform.Find(prefab.name);
-                if (!typeParent) {
-                    GameObject newParent = new GameObject(prefab.name) { transform = {
-                        parent = _containerObject.transform, localPosition = Vector3.zero } };
-                    typeParent = newParent.transform;
-                }
-
-                obj.transform.SetParent(typeParent);
-                obj.layer = objectLayer;                                        // Apply layer
-                foreach(Transform child in obj.transform) child.gameObject.layer = objectLayer; // Modify layer of children
-                obj.SetActive(true);
-            }
+            obj.transform.SetParent(typeParent);
+            obj.layer = objectLayer;                                        // Apply layer
+            foreach(Transform child in obj.transform) child.gameObject.layer = objectLayer; // Modify layer of children
+            obj.SetActive(true);
 
             return true;
         }
