@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // ! Add better borders to biomes (add noise ?)
-// L Add water at a certain level + prevent objects to spawn underwater level
+// L Prevent objects to spawn at water level or below
 // L Some enemies are disabled from the start (don't seem to update) -> EntitySpawnManager.cs don't have update
 // ? Make enemies spawn via BiomeGenerator
 // H Add roads, villages & caves

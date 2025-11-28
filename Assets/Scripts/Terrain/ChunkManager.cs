@@ -23,6 +23,7 @@ namespace Terrain {
 
         private void Awake() {
             if (useRandomSeed) seed = Random.Range(-100_000, 100_000);
+            IsInitialized = true;
         }
 
         private void Start() {

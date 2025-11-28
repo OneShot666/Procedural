@@ -50,3 +50,4 @@ MonoBehaviour:
   areaSize: 80
   minBuildingSeparation: 10
   terrainGenerator: {fileID: 0}
+  yOffset: -1

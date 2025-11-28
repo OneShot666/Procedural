@@ -18,6 +18,7 @@ namespace Terrain {
         public int mapSize = 100;
 
         [Header("Seed & Noise Details")]
+        public bool IsInitialized { get; protected set; }
         public bool useRandomSeed = true;
         public int seed;
         [Tooltip("Number of detail layers")]
