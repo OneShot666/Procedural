@@ -65,7 +65,7 @@ namespace Terrains {
 
             if (useSquareShape) return dx + noiseOffset <= biomeSize && dz + noiseOffset <= biomeSize;
 
-            float dist = Mathf.Sqrt(dx*dx + dz*dz);
+            float dist = Mathf.Sqrt(dx * dx + dz * dz);
             return dist + noiseOffset <= biomeSize;
         }
 
@@ -113,7 +113,7 @@ namespace Terrains {
             foreach (Transform child in obj.transform) SetLayerRecursively(child.gameObject, layer);
         }
 
-        private void OnDrawGizmosSelected() {
+        private void OnDrawGizmosSelected() {                                   // Display biome area
             if (!drawGizmos) return;
 
             Gizmos.color = new Color(areaColor.r, areaColor.g, areaColor.b, 0.3f);
@@ -123,11 +123,11 @@ namespace Terrains {
             else if (useSquareShape) {
                 Vector3 size = new Vector3(biomeSize * 2, 10f, biomeSize * 2);
                 Gizmos.DrawCube(center, new Vector3(size.x, 0.1f, size.z));
-                Gizmos.DrawWireCube(center, size);
+                Gizmos.DrawWireCube(center, size);                              // Borders
             } else Gizmos.DrawWireSphere(center, biomeSize);
 
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(Vector3.zero, spawnSafeRadius);
+            Gizmos.DrawWireSphere(Vector3.zero, spawnSafeRadius);               // Safe spawn zone
         }
     }
 }

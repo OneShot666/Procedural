@@ -2,9 +2,12 @@ using System.Collections.Generic;
 using UnityEngine.Rendering;
 using System.Collections;
 using System.Diagnostics;
-using UnityEditor;
 using UnityEngine;
 using ToolBuddy;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 // Use for IndexFormat
 namespace Caves {
@@ -49,11 +52,15 @@ namespace Caves {
         public void SetTarget(Transform t) => target = t;
 
         private void EditorUpdate() {
-            if (!Application.isPlaying) EditorApplication.QueuePlayerLoopUpdate();
+            #if UNITY_EDITOR
+                if (!Application.isPlaying) EditorApplication.QueuePlayerLoopUpdate();
+            #endif
         }
 
         private void OnEnable() {
-            EditorApplication.update += EditorUpdate;
+            #if UNITY_EDITOR
+                EditorApplication.update += EditorUpdate;
+            #endif
             _meshFilter = GetComponent<MeshFilter>();
             _meshRenderer = GetComponent<MeshRenderer>();
             _meshCollider = GetComponent<MeshCollider>();
@@ -62,7 +69,9 @@ namespace Caves {
         }
 
         private void OnDisable() {
-            EditorApplication.update -= EditorUpdate;
+            #if UNITY_EDITOR
+                EditorApplication.update -= EditorUpdate;
+            #endif
             SetDirty();
         }
 

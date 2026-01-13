@@ -1,9 +1,9 @@
 using UnityEngine;
 
 // . Add village to mesh + make it layer 6 (big objects)
-// ! Upgrade buildings visual + check if colliders
-// ! Adapt terrain to village's buildings
-// H Add roads
+// ! Upgrade buildings visual + add other types of buildings (fields, market...)
+// ! Adapt terrain to village's buildings (smooth surface)
+// L Add roads between villages
 // L Some enemies are disabled from the start (don't seem to update) -> EntitySpawnManager.cs don't have update
 // ? Make enemies spawn via BiomeGenerator
 namespace Gameplay {
@@ -25,7 +25,8 @@ namespace Gameplay {
 
         void Update() {
             if (target) {
-                transform.position = Vector3.Lerp(transform.position, target.position + target.forward * offSet, speed * Time.unscaledDeltaTime);
+                transform.position = Vector3.Lerp(transform.position, target.position + target.forward * offSet, 
+                    speed * Time.unscaledDeltaTime);
                 transform.LookAt(target);
             } else {                                                            // Free camera mode
                 MoveCamera();

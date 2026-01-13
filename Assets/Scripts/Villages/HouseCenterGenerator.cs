@@ -21,12 +21,12 @@ namespace Villages {
         [Tooltip("Vertical offset of buildings")]
         public float yOffset; 
 
-        private readonly List<GameObject> generatedBuildings = new();
-        private LayerMask groundLayer;
+        private readonly List<GameObject> _generatedBuildings = new();
+        private LayerMask _groundLayer;
         private const string GroundLayerName = "Default";
 
         void Awake() {
-            groundLayer = LayerMask.GetMask(GroundLayerName);
+            _groundLayer = LayerMask.GetMask(GroundLayerName);
         }
 
         private void Start() {
@@ -76,7 +76,7 @@ namespace Villages {
             Vector3 finalWorldPos = new Vector3(worldX, groundHeight + yOffset, worldZ);    // Apply offset
 
             GameObject newBuildingObj = Instantiate(prefab.gameObject, finalWorldPos, Quaternion.identity, transform);
-            newBuildingObj.name = (isCentral ? "Church_CENTRAL" : "Residential_") + generatedBuildings.Count;
+            newBuildingObj.name = (isCentral ? "Church_CENTRAL" : "Residential_") + _generatedBuildings.Count;
             BuildingGenerator buildingScript = newBuildingObj.GetComponent<BuildingGenerator>();
 
             if (prefab.type == BuildingGenerator.BuildingType.Residential) {
@@ -86,20 +86,20 @@ namespace Villages {
             }
 
             buildingScript.GenerateBuilding();
-            generatedBuildings.Add(newBuildingObj);
+            _generatedBuildings.Add(newBuildingObj);
         }
 
         private float GetHeightAt(float worldX, float worldZ) {
             if (terrainGenerator) return terrainGenerator.GetHeight(worldX, worldZ);
 
             if (Physics.Raycast(new Vector3(worldX, 200f, worldZ), 
-                Vector3.down, out var hit, 300f, groundLayer)) return hit.point.y;
+                Vector3.down, out var hit, 300f, _groundLayer)) return hit.point.y;
 
             return transform.position.y;                                        // Default height
         }
 
         private bool IsOverlapping(Vector3 localPos) {
-            foreach (GameObject go in generatedBuildings) {
+            foreach (GameObject go in _generatedBuildings) {
                 if (!go) continue;
             
                 Vector3 otherLocalPos = go.transform.localPosition;             // Compare local positions
@@ -113,13 +113,13 @@ namespace Villages {
         }
 
         private void CleanUpPreviousGeneration() {
-            generatedBuildings.RemoveAll(item => !item);
-        
+            _generatedBuildings.RemoveAll(item => !item);
+
             var tempArray = new List<GameObject>();                             // Clean children
             foreach (Transform child in transform) tempArray.Add(child.gameObject);
             foreach (var child in tempArray) DestroyImmediate(child);
         
-            generatedBuildings.Clear();
+            _generatedBuildings.Clear();
         }
     }
 }

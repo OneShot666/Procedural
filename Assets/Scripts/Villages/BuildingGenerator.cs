@@ -1,8 +1,10 @@
 using UnityEngine;
 
+// L Replace by a script VillageGenerator.cs that use prefabs instead : have an empty parent gameObject,
+// a size, a building scale, etc. (L MarketPlace)
 // ReSharper disable Unity.PerformanceCriticalCodeInvocation
 namespace Villages {
-    public class BuildingGenerator : MonoBehaviour {
+    public class BuildingGenerator : MonoBehaviour {                            // Manually create the village
         public enum BuildingType { Residential, Religious }                     // Type of building
 
         [Header("Buildings")]
