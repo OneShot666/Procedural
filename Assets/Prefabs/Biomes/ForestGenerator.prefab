@@ -53,11 +53,13 @@ MonoBehaviour:
   borderNoiseScale: 20
   borderNoiseStrength: 10
   objectsPrefabs:
-  - {fileID: 919132149155446097, guid: da3bddbfd2c9a304ea8e48989aa0d340, type: 3}
-  - {fileID: 919132149155446097, guid: b0671ce535ec2d74f8113e5b682e96e8, type: 3}
-  - {fileID: 919132149155446097, guid: e5ca7b90243e4c449b8b46532f6a13ba, type: 3}
-  - {fileID: 919132149155446097, guid: bf528d5706848834fbba082ba758dbe3, type: 3}
-  - {fileID: 919132149155446097, guid: eb094d1cae7836344ada3f0b0739bc0f, type: 3}
+  - {fileID: 859109052332362779, guid: ad5d1704f615335429a010eea749deff, type: 3}
+  - {fileID: 5118106142683656352, guid: e952b8b503998d54eae190ca0680001d, type: 3}
+  - {fileID: 7499251734889566315, guid: 7a26fd57aad41054294770f7bc2bf66e, type: 3}
+  - {fileID: 2595752373304230482, guid: c8551958db2aee74299486f6189781b6, type: 3}
+  - {fileID: 6911487369574586541, guid: 478d7800218164449bd08f96a8389225, type: 3}
+  drawGizmos: 1
+  allowUnderwater: 0
   objectsDensityPercent: 15
   yOffset: 0
   objectLayer: 6
@@ -82,17 +84,19 @@ MonoBehaviour:
   borderNoiseScale: 20
   borderNoiseStrength: 10
   objectsPrefabs:
-  - {fileID: 919132149155446097, guid: 57de2a595fe18cf49b7e38dae58851e3, type: 3}
-  - {fileID: 919132149155446097, guid: b6ce2e5b295e90c4dbb849d60b22c41c, type: 3}
-  - {fileID: 919132149155446097, guid: 5ccbb80fccbbef44ba3bfe03e7df3c52, type: 3}
-  - {fileID: 919132149155446097, guid: de209842c5136d041842489a189c9eb6, type: 3}
-  - {fileID: 919132149155446097, guid: 411af27e158519b41948a5e284dc938d, type: 3}
-  - {fileID: 919132149155446097, guid: 501dc5288e56fe9448d5f4d4025cee04, type: 3}
-  - {fileID: 919132149155446097, guid: 182e8154a73c6a64ca68ffe1177ddfc9, type: 3}
-  - {fileID: 919132149155446097, guid: 14301a68a5a436641bf2fc1b7681dfa9, type: 3}
-  - {fileID: 919132149155446097, guid: d85ef61dc65edb0459f322feee831e3e, type: 3}
-  - {fileID: 919132149155446097, guid: 27f3bdbe614bdc240a2bf1750c7fc3a5, type: 3}
-  - {fileID: 919132149155446097, guid: fe93ec879795d7b4dad80da1b5baec69, type: 3}
+  - {fileID: 3844101992160974051, guid: 544c4cf2a93327b4a839cf37f7923bc2, type: 3}
+  - {fileID: 5933028572992582681, guid: d3c22f15c09d557428dfa0ccb6ae8f35, type: 3}
+  - {fileID: 5057021451825892606, guid: a0754ad5b6443334bab952bb9839b412, type: 3}
+  - {fileID: 4563004991901029193, guid: fbde8c712c7bc9849abc82c1c066f3b1, type: 3}
+  - {fileID: 3881675296155575927, guid: a12eee07e5597da43ab51cdb9583f5d6, type: 3}
+  - {fileID: 582804608303793260, guid: 842b9220ae2959046bb05707090eb943, type: 3}
+  - {fileID: 2765812286094688396, guid: cae442e3cc53aaf49b2689d8a4191d06, type: 3}
+  - {fileID: 6286194166289893370, guid: 8aeb4e7f03e728e4b83d26c0cf81f297, type: 3}
+  - {fileID: 881242073038216396, guid: fb20f2061ac15e444801a80e983472fc, type: 3}
+  - {fileID: 4388221195406824816, guid: e8126c04cced50947b8e18672fe07dae, type: 3}
+  - {fileID: 5247612326414245158, guid: c38e832a8bddb5745a08337c2bd493ca, type: 3}
+  drawGizmos: 1
+  allowUnderwater: 0
   objectsDensityPercent: 5
   yOffset: 0
   objectLayer: 7

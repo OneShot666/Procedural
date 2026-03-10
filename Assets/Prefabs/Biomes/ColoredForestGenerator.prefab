@@ -45,18 +45,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 0}
+  isGlobalBiome: 0
   biomeSize: 500
   useSquareShape: 1
   areaColor: {r: 0.30460402, g: 0.690566, b: 0.04560332, a: 1}
+  borderNoiseScale: 20
+  borderNoiseStrength: 10
   objectsPrefabs:
-  - {fileID: 919132149155446097, guid: b6ce2e5b295e90c4dbb849d60b22c41c, type: 3}
-  - {fileID: 919132149155446097, guid: 97bbde1049ff7f643a71261a858eb96f, type: 3}
-  - {fileID: 919132149155446097, guid: 57de2a595fe18cf49b7e38dae58851e3, type: 3}
-  - {fileID: 919132149155446097, guid: 65a3c51c1bab70d4e8bcbaae980ca0a2, type: 3}
-  - {fileID: 919132149155446097, guid: 2775b75fa6d5bd84489e458726fed96f, type: 3}
-  - {fileID: 919132149155446097, guid: f5e0e006ddc6aad41ac237874e69a776, type: 3}
-  - {fileID: 919132149155446097, guid: a1cec8e4e1e7380488228a67ada0f42b, type: 3}
-  - {fileID: 919132149155446097, guid: 5b9481de97a1dcc4ea907b9650f091ae, type: 3}
+  - {fileID: 5933028572992582681, guid: d3c22f15c09d557428dfa0ccb6ae8f35, type: 3}
+  - {fileID: 1189027622218236521, guid: 2ace671e13f564a4ba8631c2267428a8, type: 3}
+  - {fileID: 3844101992160974051, guid: 544c4cf2a93327b4a839cf37f7923bc2, type: 3}
+  - {fileID: 8812232280126429679, guid: 7e448af22a0155641b710b3c6d8479c8, type: 3}
+  - {fileID: 580902575437326524, guid: 716863371bda4c24f84a3c34a2fdaa5f, type: 3}
+  - {fileID: 4270971784984387146, guid: 13f2a1284a480f84fb5131e3a1555036, type: 3}
+  - {fileID: 6070623856310292811, guid: 86b2f48d5a41b50469805f4671344136, type: 3}
+  - {fileID: 6686792698755727483, guid: bba7ed6ed220b0f4c87b28d426731584, type: 3}
+  drawGizmos: 1
+  allowUnderwater: 0
   objectsDensityPercent: 20
   yOffset: 0
   objectLayer: 6
+  spawnSafeRadius: 5
